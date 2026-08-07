@@ -34,6 +34,7 @@ from socket_handler import socketio
 import socket_events  # noqa: F401
 
 # ---------------------- APP SETUP ----------------------
+#heygitt
 
 load_dotenv(dotenv_path=".env")
 
