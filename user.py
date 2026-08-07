@@ -1,4 +1,4 @@
-from flask_talisman import Talisman
+
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flasgger import Swagger
@@ -48,8 +48,8 @@ Swagger(app)
 CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}})
 limiter = Limiter(key_func=get_remote_address, app=app)
  
-#if not app.config.get("TESTING"):
-   #Talisman(app)
+# if not app.config.get("TESTING"):
+#     Talisman(app)
 
 
 db.init_app(app)
