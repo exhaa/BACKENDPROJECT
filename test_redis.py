@@ -1,12 +1,12 @@
 from redis_client import redis_client
 import time
 
-# Store a key for 30 seconds
-redis_client.set("session", "abc123", ex=30)
 
-print("Value:", redis_client.get("session"))
-print("TTL:", redis_client.ttl("session"))
+def test_redis_expiry():
+    redis_client.set("session", "abc123", ex=2)
 
-time.sleep(31)
+    assert redis_client.get("session") == "abc123"
 
-print("After Expiry:", redis_client.get("session"))
+    time.sleep(3)
+
+    assert redis_client.get("session") is None
