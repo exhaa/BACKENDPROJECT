@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Flask Socket.IO Chat Demo</title>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+
+<body>
+
+    <h2>Flask Socket.IO Chat Demo</h2>
+
+    <p id="status">Disconnected</p>
+
+    <hr>
+
+    <h3>Room</h3>
+
+    <input
+        type="text"
+        id="room"
+        value="chat_room_101"
+        placeholder="Room Name">
+
+    <button onclick="joinRoom()">Join Room</button>
+
+    <button onclick="leaveRoom()">Leave Room</button>
+
+    <hr>
+
+    <h3>Message</h3>
+
+    <input
+        type="text"
+        id="message"
+        placeholder="Enter Message">
+
+    <button onclick="sendMessage()">Send Message</button>
+
+    <button onclick="typingIndicator()">Typing...</button>
+
+    <hr>
+
+    <h3>Output</h3>
+
+    <div id="output"></div>
+
+<script>
+
+// ===========================
+// Socket Connection
+// ===========================
+
+const socket = io("http://127.0.0.1:5000/chat", {
+
+    auth: {
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE5LCJyb2xlIjoidXNlciIsImV4cCI6MTc4NTgzNDg3OH0.x2UIKxqNcIY2ab6jXDLAOdmf53I39mv-qS3h15XUfq4"
+    }
+
+});
+
+// ===========================
+// Helper
+// ===========================
+
+function addMessage(message){
+
+    document.getElementById("output").innerHTML +=
+        "<p>" + message + "</p>";
+
+}
+
+// ===========================
+// Connection Events
+// ===========================
+
+socket.on("connect", () => {
+
+    document.getElementById("status").innerHTML =
+        "Connected";
+
+    console.log("Connected");
+
+});
+
+socket.on("disconnect", () => {
+
+    document.getElementById("status").innerHTML =
+        "Disconnected";
+
+    console.log("Disconnected");
+
+});
+
+// ===========================
+// Server Events
+// ===========================
+
+socket.on("joined_room", (data) => {
+
+    addMessage(data.message);
+
+});
+
+socket.on("left_room", (data) => {
+
+    addMessage(data.message);
+
+});
+
+socket.on("new_message", (data) => {
+
+    addMessage("Server: " + data.message);
+
+});
+
+socket.on("room_message", (data) => {
+
+    addMessage(
+        "Room (" +
+        data.room +
+        "): " +
+        data.message
+    );
+
+});
+
+socket.on("user_typing", (data) => {
+
+    addMessage(
+        data.user +
+        " is typing..."
+    );
+
+});
+
+// ===========================
+// Client Events
+// ===========================
+
+function joinRoom(){
+
+    socket.emit(
+        "join_room",
+        {
+            room: document.getElementById("room").value
+        }
+    );
+
+}
+
+function leaveRoom(){
+
+    socket.emit(
+        "leave_room",
+        {
+            room: document.getElementById("room").value
+        }
+    );
+
+}
+
+function sendMessage(){
+
+    const room = document.getElementById("room").value;
+
+    const msg = document.getElementById("message").value;
+
+    socket.emit(
+        "send_message",
+        {
+            room: room,
+            message: msg
+        }
+    );
+
+}
+
+function typingIndicator(){
+
+    socket.emit(
+        "typing_indicator",
+        {
+            user: "Esha",
+            room: document.getElementById("room").value
+        }
+    );
+
+}
+
+</script>
+
+</body>
+</html>

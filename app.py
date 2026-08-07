@@ -1,9 +1,10 @@
-
-# Final review branch update
+import os
 from dotenv import load_dotenv
-from flask import Flask, abort
+from flask import Flask, abort, jsonify, g
+
 from route.user_route import user_bp
 from middleware.error_handler import register_error_handlers
+from middleware.auth import authenticate_token
 
 # Load environment variables
 load_dotenv()
@@ -11,7 +12,7 @@ load_dotenv()
 # Create Flask app
 app = Flask(__name__)
 
-# Load configuration from .env
+# Load configuration
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 PORT = int(os.getenv("PORT", 5000))
 
@@ -25,7 +26,21 @@ register_error_handlers(app)
 # Home Route
 @app.route("/")
 def home():
-    return {"success": True, "message": "Welcome to the Flask API"}
+    return jsonify({
+        "success": True,
+        "message": "Welcome to the Flask API"
+    })
+
+
+# Protected Route
+@app.route("/profile")
+@authenticate_token
+def profile():
+    return jsonify({
+        "success": True,
+        "message": "Access granted",
+        "user": g.user
+    }), 200
 
 
 # Test 400 Error
