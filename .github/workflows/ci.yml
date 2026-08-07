@@ -66,4 +66,4 @@ jobs:
       - name: Push Docker Images
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/backend-api:${{ github.sha }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/backend-api:latestgit 
+          docker push ${{ secrets.DOCKER_USERNAME }}/backend-api:latest
