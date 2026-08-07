@@ -11,8 +11,13 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
 
     steps:
       - name: Checkout Repository
@@ -32,4 +37,4 @@ jobs:
         run: flake8 .
 
       - name: Run Pytest
-        run: pytest
+        run: python -m pytest
