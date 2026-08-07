@@ -7,7 +7,7 @@ from flask_socketio import (
 from socket_handler import socketio
 import jwt
 import os
-from flask import request
+
 
 # =====================================================
 # DEFAULT NAMESPACE (/)
