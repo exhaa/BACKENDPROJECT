@@ -1,6 +1,4 @@
 import time
-
-import pika
 from prometheus_flask_exporter import PrometheusMetrics
 from prometheus_client import Gauge, generate_latest, CONTENT_TYPE_LATEST
 import psutil
@@ -45,7 +43,7 @@ import socket_events  # noqa: F401
 
 load_dotenv(dotenv_path=".env")
 setup_logging()
-logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 app = Flask(__name__)
