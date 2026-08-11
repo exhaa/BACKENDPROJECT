@@ -1,0 +1,80 @@
+{"asctime": "2026-08-11 12:58:55,463", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 12:58:56,935", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 12:58:56,938", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 12:59:12,620", "levelname": "INFO", "name": "__main__", "message": "Login request received", "route": "/auth/login", "method": "POST", "correlation_id": "52ad0b8b-800d-40a8-a0c5-d679c8f9fcd6"}
+{"asctime": "2026-08-11 12:59:12,862", "levelname": "INFO", "name": "__main__", "message": "User login successful", "route": "/auth/login", "method": "POST", "correlation_id": "52ad0b8b-800d-40a8-a0c5-d679c8f9fcd6"}
+{"asctime": "2026-08-11 12:59:14,776", "levelname": "INFO", "name": "__main__", "message": "Login request received", "route": "/auth/login", "method": "POST", "correlation_id": "7c642ab1-a214-4525-90cb-096930a9fca1"}
+{"asctime": "2026-08-11 13:01:31,670", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:01:36,625", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:01:36,631", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:17:57,549", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:17:58,967", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:17:58,970", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:18:43,403", "levelname": "ERROR", "name": "__main__", "message": "Redis health check failed: name 'redis_conn' is not defined"}
+{"asctime": "2026-08-11 13:18:46,429", "levelname": "ERROR", "name": "__main__", "message": "Redis health check failed: name 'redis_conn' is not defined"}
+{"asctime": "2026-08-11 13:27:34,760", "levelname": "INFO", "name": "werkzeug", "message": " * Detected change in 'C:\\\\Users\\\\Malik\\\\Desktop\\\\BackendProject\\\\user.py', reloading"}
+{"asctime": "2026-08-11 13:27:35,099", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:27:36,777", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:27:36,779", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:34:35,917", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:34:37,364", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:34:37,367", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:35:09,768", "levelname": "INFO", "name": "werkzeug", "message": " * Detected change in 'C:\\\\Users\\\\Malik\\\\Desktop\\\\BackendProject\\\\user.py', reloading"}
+{"asctime": "2026-08-11 13:35:10,102", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:35:11,761", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:35:11,763", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:36:30,902", "levelname": "INFO", "name": "werkzeug", "message": " * Detected change in 'C:\\\\Users\\\\Malik\\\\Desktop\\\\BackendProject\\\\user.py', reloading"}
+{"asctime": "2026-08-11 13:36:31,416", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:36:35,306", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:36:35,312", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:36:55,415", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:36:58,523", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:36:58,528", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:38:14,285", "levelname": "INFO", "name": "werkzeug", "message": " * Detected change in 'C:\\\\Users\\\\Malik\\\\Desktop\\\\BackendProject\\\\user.py', reloading"}
+{"asctime": "2026-08-11 13:38:14,979", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:38:18,289", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:38:18,294", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:38:34,062", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:38:37,248", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:38:37,252", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:41:56,315", "levelname": "INFO", "name": "werkzeug", "message": " * Detected change in 'C:\\\\Users\\\\Malik\\\\Desktop\\\\BackendProject\\\\user.py', reloading"}
+{"asctime": "2026-08-11 13:41:57,019", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:42:09,824", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:42:13,745", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:42:13,750", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:45:45,365", "levelname": "INFO", "name": "werkzeug", "message": " * Detected change in 'C:\\\\Users\\\\Malik\\\\Desktop\\\\BackendProject\\\\user.py', reloading"}
+{"asctime": "2026-08-11 13:45:45,841", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:45:50,261", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:45:50,271", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:46:19,010", "levelname": "INFO", "name": "werkzeug", "message": " * Detected change in 'C:\\\\Users\\\\Malik\\\\Desktop\\\\BackendProject\\\\user.py', reloading"}
+{"asctime": "2026-08-11 13:46:19,603", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:46:23,038", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:46:23,041", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:46:39,076", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:46:42,101", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:46:42,111", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:47:19,458", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:47:22,065", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:47:22,071", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:48:48,516", "levelname": "INFO", "name": "werkzeug", "message": " * Detected change in 'C:\\\\Users\\\\Malik\\\\Desktop\\\\BackendProject\\\\user.py', reloading"}
+{"asctime": "2026-08-11 13:48:48,997", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:48:52,327", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:48:52,332", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:49:04,261", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:49:06,991", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:49:06,996", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:56:18,808", "levelname": "INFO", "name": "werkzeug", "message": " * Detected change in 'C:\\\\Users\\\\Malik\\\\Desktop\\\\BackendProject\\\\user.py', reloading"}
+{"asctime": "2026-08-11 13:56:19,148", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:56:20,897", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:56:20,900", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:56:39,887", "levelname": "INFO", "name": "werkzeug", "message": " * Detected change in 'C:\\\\Users\\\\Malik\\\\Desktop\\\\BackendProject\\\\user.py', reloading"}
+{"asctime": "2026-08-11 13:56:40,210", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:56:41,767", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:56:41,770", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:57:31,051", "levelname": "INFO", "name": "werkzeug", "message": " * Detected change in 'C:\\\\Users\\\\Malik\\\\Desktop\\\\BackendProject\\\\user.py', reloading"}
+{"asctime": "2026-08-11 13:57:31,370", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:57:32,945", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:57:32,947", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}
+{"asctime": "2026-08-11 13:57:46,998", "levelname": "INFO", "name": "werkzeug", "message": " * Restarting with stat"}
+{"asctime": "2026-08-11 13:57:48,376", "levelname": "WARNING", "name": "werkzeug", "message": " * Debugger is active!"}
+{"asctime": "2026-08-11 13:57:48,379", "levelname": "INFO", "name": "werkzeug", "message": " * Debugger PIN: 111-903-288"}

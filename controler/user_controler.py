@@ -1,14 +1,18 @@
 from flask import jsonify
-from model.user_model import users
+from service.user_service import fetch_users, fetch_user
 
 
 def get_users():
-    return jsonify(users)
+    return jsonify(fetch_users())
 
 
 def get_user(user_id):
-    for user in users:
-        if user["id"] == user_id:
-            return jsonify(user)
+    user = fetch_user(user_id)
 
-    return jsonify({"success": False, "message": "User not found"}), 404
+    if user:
+        return jsonify(user)
+
+    return jsonify({
+        "success": False,
+        "message": "User not found"
+    }), 404
