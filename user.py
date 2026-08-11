@@ -1,3 +1,9 @@
+import time
+
+import pika
+from prometheus_flask_exporter import PrometheusMetrics
+from prometheus_client import Gauge, generate_latest, CONTENT_TYPE_LATEST
+import psutil
 
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -12,7 +18,8 @@ import jwt
 from datetime import datetime, timedelta
 import os
 import bcrypt
-
+import uuid
+import logging
 from flask import Flask, request, jsonify, g
 from extensions import db, migrate
 
@@ -23,12 +30,12 @@ from validators.user_validator import RegisterSchema
 from middleware.validation import validate
 
 import bleach
-
+from logging_config import setup_logging
 from middleware.sanitizer import remove_nosql_operators
 from job_queue import queue
 from tasks import send_email_task
 from rq import Retry
-
+from redis_connection import redis_conn
 from socket_handler import socketio
 
 import socket_events  # noqa: F401
@@ -37,12 +44,47 @@ import socket_events  # noqa: F401
 # eygittgit add .
 
 load_dotenv(dotenv_path=".env")
+setup_logging()
+logging.getLogger(__name__)
 
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
+
+metrics.info(
+    "app_info",
+    "Application information",
+    version="1.0"
+)
+
+memory_usage = Gauge(
+    "app_memory_usage_bytes",
+    "Application memory usage in bytes"
+)
+
+@app.route("/metrics", methods=["GET"])
+def metrics_endpoint():
+    return generate_latest(), 200, {
+        "Content-Type": CONTENT_TYPE_LATEST
+    }
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+
+@app.before_request
+def add_correlation_id():
+    g.correlation_id = request.headers.get(
+        "X-Correlation-ID",
+        str(uuid.uuid4())
+    )
+    process = psutil.Process()
+    memory_usage.set(process.memory_info().rss)
+
+@app.after_request
+def add_correlation_header(response):
+    response.headers["X-Correlation-ID"] = g.correlation_id
+    return response
+
 
 socketio.init_app(app)
 Swagger(app)
@@ -51,7 +93,81 @@ limiter = Limiter(key_func=get_remote_address, app=app)
  
 # if not app.config.get("TESTING"):
 #     Talisman(app)
+def check_database():
+    try:
+        db.session.execute(db.text("SELECT 1"))
+        return True
+    except Exception as e:
+        logger.error(f"Database health check failed: {e}")
+        return False
 
+def check_redis():
+    try:
+        start_time = time.time()
+
+        redis_conn.ping()
+
+        latency = round(
+            (time.time() - start_time) * 1000,
+            2
+        )
+
+        return {
+            "status": "healthy",
+            "latency_ms": latency
+        }
+
+    except Exception as e:
+        logger.error(f"Redis health check failed: {e}")
+
+        return {
+            "status": "unhealthy",
+            "latency_ms": None
+        }
+
+
+@app.route("/healthz", methods=["GET"])
+def healthz():
+
+    database_ok = check_database()
+    redis_result = check_redis()
+
+    overall_healthy = (
+        database_ok
+        and redis_result["status"] == "healthy"
+    )
+
+    return jsonify({
+        "status": "healthy" if overall_healthy else "unhealthy",
+
+        "database": {
+            "status": "healthy" if database_ok else "unhealthy"
+        },
+
+        "redis": redis_result
+    }), 200 if overall_healthy else 503
+
+
+@app.route("/readyz", methods=["GET"])
+def readyz():
+
+    database_ok = check_database()
+    redis_result = check_redis()
+
+    application_ready = (
+        database_ok
+        and redis_result["status"] == "healthy"
+    )
+
+    return jsonify({
+        "status": "ready" if application_ready else "not_ready",
+
+        "database": {
+            "status": "healthy" if database_ok else "unhealthy"
+        },
+
+        "redis": redis_result
+    }), 200 if application_ready else 503
 
 db.init_app(app)
 migrate.init_app(app, db)
@@ -83,10 +199,19 @@ class User(db.Model):
 
 # ---------------------- REGISTER ----------------------
 
-
 @app.route("/auth/register", methods=["POST"])
 @validate(RegisterSchema)
 def register():
+
+    logger.info(
+        "Registration request received",
+        extra={
+            "route": request.path,
+            "method": request.method,
+            "correlation_id": g.correlation_id
+        }
+    )
+
     """
     Register a new user
     ---
@@ -124,26 +249,51 @@ def register():
     existing_user = User.query.filter_by(email=data["email"]).first()
 
     if existing_user:
+        logger.warning(
+            "Registration failed: email already exists",
+            extra={
+                "route": request.path,
+                "method": request.method,
+                "correlation_id": g.correlation_id
+            }
+        )
         return jsonify({"message": "Email already exists"}), 400
 
     hashed_password = bcrypt.hashpw(
-        data["password"].encode("utf-8"), bcrypt.gensalt()
+        data["password"].encode("utf-8"),
+        bcrypt.gensalt()
     ).decode("utf-8")
 
     new_user = User(
-        name=data["name"], email=data["email"], passwordHash=hashed_password
+        name=data["name"],
+        email=data["email"],
+        passwordHash=hashed_password
     )
 
     db.session.add(new_user)
     db.session.commit()
 
-    # Enqueue the background job
     job = queue.enqueue(
-        send_email_task, new_user.email, retry=Retry(max=4, interval=[5, 10, 20, 40])
+        send_email_task,
+        new_user.email,
+        retry=Retry(max=4, interval=[5, 10, 20, 40])
     )
 
     invalidate_cache("/users*")
-    return jsonify({"message": "User registered successfully", "job_id": job.id}), 202
+
+    logger.info(
+        "User registered successfully",
+        extra={
+            "route": request.path,
+            "method": request.method,
+            "correlation_id": g.correlation_id
+        }
+    )
+
+    return jsonify({
+        "message": "User registered successfully",
+        "job_id": job.id
+    }), 201
 
 
 @app.route("/posts", methods=["POST"])
@@ -179,6 +329,16 @@ def create_post():
 @app.route("/auth/login", methods=["POST"])
 @limiter.limit("10 per minute")
 def login():
+
+    logger.info(
+        "Login request received",
+        extra={
+            "route": request.path,
+            "method": request.method,
+            "correlation_id": g.correlation_id
+        }
+    )
+
     """
     User Login
     ---
@@ -209,11 +369,30 @@ def login():
     user = User.query.filter_by(email=data["email"]).first()
 
     if user is None:
+        logger.warning(
+            "Login failed: invalid email",
+            extra={
+                "route": request.path,
+                "method": request.method,
+                "correlation_id": g.correlation_id
+            }
+        )
+
         return jsonify({"message": "Invalid email or password"}), 401
 
     if not bcrypt.checkpw(
-        data["password"].encode("utf-8"), user.passwordHash.encode("utf-8")
+        data["password"].encode("utf-8"),
+        user.passwordHash.encode("utf-8")
     ):
+        logger.warning(
+            "Login failed: invalid password",
+            extra={
+                "route": request.path,
+                "method": request.method,
+                "correlation_id": g.correlation_id
+            }
+        )
+
         return jsonify({"message": "Invalid email or password"}), 401
 
     payload = {
@@ -222,12 +401,25 @@ def login():
         "exp": datetime.utcnow() + timedelta(hours=1),
     }
 
-    token = jwt.encode(payload, os.getenv("JWT_SECRET"), algorithm="HS256")
+    token = jwt.encode(
+        payload,
+        os.getenv("JWT_SECRET"),
+        algorithm="HS256"
+    )
 
-    return jsonify({"message": "Login successful", "token": token}), 200
+    logger.info(
+        "User login successful",
+        extra={
+            "route": request.path,
+            "method": request.method,
+            "correlation_id": g.correlation_id
+        }
+    )
 
-
-# ---------------------- CURRENT USER PROFILE ----------------------
+    return jsonify({
+        "message": "Login successful",
+        "token": token
+    }), 200
 
 
 @app.route("/users/<int:id>", methods=["GET"])
@@ -458,7 +650,7 @@ def cache():
     message = redis_client.get("message")
 
     return {"message": message}
-
-
+print("\nREGISTERED ROUTES:")
+print(app.url_map)
 if __name__ == "__main__":
     socketio.run(app, host="0.0.0.0", port=5000, debug=True)
